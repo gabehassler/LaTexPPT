@@ -65,5 +65,13 @@
 
 \ExplSyntaxOff
 
+\newcommand{\showExportedVariables}{
+  \ReadFile{\myarray}{\exportFileName}
+
+  \foreach \x in {1,...,\myarray*}
+  {
+      \myarray{\x}:  \expandafter\csname \myarray{\x}\endcsname\par
+  }
+}
 
 

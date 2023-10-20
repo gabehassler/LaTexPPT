@@ -1,18 +1,65 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{export}
 
+\usepackage{xparse}
+\usepackage{tikz}
+\usepackage{ifthen}
+\usepackage{amsmath}
+
 \newwrite\outputfile
 
-\newcommand{\setexportfile}[1]{\immediate\openout\outputfile=#1}
-
-\newcommand{\export}[2]{%
-  \immediate\write\outputfile{#1}%
-  \expandafter\gdef\csname #1\endcsname{#2}%
+\newcommand{\setexportfile}[1][\jobname.exports]{%
+  \immediate\openout\outputfile=#1%
 }
 
-\newcommand{\exporteq}[2]{%
-  \export{#1}{
+\setexportfile
+
+\newcommand{\export}[3][false]{%
+  \immediate\write\outputfile{#2}% <-- use \string and \detokenize together
+  \expandafter\gdef\csname #2\endcsname{#3}%
+  \ifthenelse{\equal{#1}{true}}{%
+    #3%
+  }{}%
+}
+
+\newcommand{\exporteq}[3][false]{%
+  \export[#1]{#2}{
     \begin{equation*}
-        #2%
+        #3%
     \end{equation*}}%
 }
+
+\usepackage{xparse}
+\usepackage{tikz}
+
+\ExplSyntaxOn
+\ior_new:N \g_hringriin_file_stream
+
+\NewDocumentCommand{\ReadFile}{mm}
+ {
+  \hringriin_read_file:nn { #1 } { #2 }
+  \cs_new:Npn #1 ##1
+   {
+    \str_if_eq:nnTF { ##1 } { * }
+      { \seq_count:c { g_hringriin_file_ \cs_to_str:N #1 _seq } }
+      { \seq_item:cn { g_hringriin_file_ \cs_to_str:N #1 _seq } { ##1 } }
+   }
+ }
+
+\cs_new_protected:Nn \hringriin_read_file:nn
+ {
+  \ior_open:Nn \g_hringriin_file_stream { #2 }
+  \seq_gclear_new:c { g_hringriin_file_ \cs_to_str:N #1 _seq }
+  \ior_map_inline:Nn \g_hringriin_file_stream
+   {
+    \seq_gput_right:cx
+     { g_hringriin_file_ \cs_to_str:N #1 _seq }
+     { \tl_trim_spaces:n { ##1 } }
+   }
+  \ior_close:N \g_hringriin_file_stream
+ }
+
+\ExplSyntaxOff
+
+
+

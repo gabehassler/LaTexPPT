@@ -6,16 +6,20 @@
 \usepackage{ifthen}
 \usepackage{amsmath}
 
-\newwrite\outputfile
+\newwrite\exportFile
 
-\newcommand{\setexportfile}[1][\jobname.exports]{%
-  \immediate\openout\outputfile=#1%
-}
+\def\exportFileName{\jobname.exports}
 
-\setexportfile
+\newcommand{\setExportFileName}[1]{\def\exportFileName{#1}}
+
+
+\newcommand{\openExport}{\immediate\openout\exportFile=\exportFileName}
+\newcommand{\closeExport}{\immediate\closeout\exportFile}
+
+\newenvironment{toExport}{\openExport}{\closeExport}
 
 \newcommand{\export}[3][false]{%
-  \immediate\write\outputfile{#2}% <-- use \string and \detokenize together
+  \immediate\write\exportFile{#2}% <-- use \string and \detokenize together
   \expandafter\gdef\csname #2\endcsname{#3}%
   \ifthenelse{\equal{#1}{true}}{%
     #3%

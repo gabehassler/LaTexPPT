@@ -1,0 +1,464 @@
+\RequirePackage{mathtools}
+\RequirePackage{xparse}
+\RequirePackage{amsmath}
+
+%%% Default lengths
+
+\newlength\funcneg
+\setlength\funcneg{-0.5pt}
+\newlength\funcnegsm
+\setlength\funcnegsm{-0.25pt}
+\newlength\funcnegbig
+\setlength\funcnegbig{-1pt}
+
+%%% Delimitters
+\DeclarePairedDelimiter{\parens}{\lparen}{\rparen}
+\DeclarePairedDelimiter{\brackets}{\lbrack}{\rbrack}
+\DeclarePairedDelimiter{\nodelim}{{}}{{}}
+\DeclarePairedDelimiter{\braces}{\lbrace}{\rbrace}
+
+
+%%% Standard operators
+
+\newcommand\kron{\otimes}
+
+
+\NewDocumentCommand{\myOp}{
+	O{\funcneg}
+	D(){\parens*}
+	m
+	m
+	}{
+	\operatorname{#3}\hspace{#1}#2{#4}
+}
+
+\NewDocumentCommand{\myOpSimple}{
+	O{\funcneg}
+	D(){\parens*}
+	m
+	m
+}{
+	{#3}\hspace{#1}#2{#4}
+}
+
+\NewDocumentCommand{\vecOp}{
+	O{\funcneg}
+	D(){\parens*}
+	m
+}{
+	\operatorname{vec}\hspace{#1}#2{#3}
+}
+
+
+\NewDocumentCommand{\trOp}{
+	O{\funcneg}
+	D(){\parens*}
+	m
+}{
+	\operatorname{tr}\hspace{#1}#2{#3}
+}
+
+%\newcommand{\diag}[1]{\text{diag} \left[ #1 \right]}
+
+\NewDocumentCommand{\diagOp}{
+	O{\funcneg}
+	D(){\brackets*}
+	m
+}{
+	\operatorname{diag}\hspace{#1}#2{#3}
+}
+
+\NewDocumentCommand{\logOp}{
+	O{\funcneg}
+	D(){\nodelim}
+	m
+}{
+	\operatorname{log}\hspace{#1}#2{#3}
+}
+
+\NewDocumentCommand{\detOp}{
+	O{\funcneg}
+	D(){\parens*}
+	m
+}{
+	\operatorname{det}\hspace{#1}#2{#3}
+}
+
+\NewDocumentCommand{\adjOp}{
+	O{\funcneg}
+	D(){\parens*}
+	m
+}{
+	\operatorname{adj}\hspace{#1}#2{#3}
+}
+
+\NewDocumentCommand{\expOp}{
+	O{\funcneg}
+	D(){\parens*}
+	m
+}{
+	\operatorname{exp}\hspace{#1}#2{#3}
+}
+
+\NewDocumentCommand{\logdetOp}{
+	O{\funcneg}
+	D(){\parens*}
+	m
+}{
+	\operatorname{log}\operatorname{det}\hspace{#1}#2{#3}
+}
+
+\NewDocumentCommand{\rankOp}{
+	O{\funcneg}
+	D(){\parens*}
+	m
+}{
+	\operatorname{rank}\hspace{#1}#2{#3}
+}
+
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+
+
+\NewDocumentCommand{\argmaxOp}{
+	O{\funcneg}
+	D(){\parens*}
+	m
+	m
+}{
+	\argmax_{#3}\hspace{#1}#2{#4}
+}
+
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+
+\NewDocumentCommand{\argminOp}{
+	O{\funcneg}
+	D(){\parens*}
+	m
+	m
+}{
+	\argmin_{#3}\hspace{#1}#2{#4}
+}
+
+\NewDocumentCommand{\abstextOp}{
+	O{\funcneg}
+	D(){\parens*}
+	m
+}{
+	\operatorname{abs}\hspace{#1}#2{#3}
+}
+
+\newcommand*{\absOp}[1]{\left|#1\right|}
+
+\NewDocumentCommand{\corrOp}{
+	O{\funcneg}
+	D(){\parens*}
+	m
+	m
+}{
+	\operatorname{corr}\hspace{#1}#2{#3, #4}
+}
+
+\NewDocumentCommand{\ccorrOp}{
+	O{\funcneg}
+	D(){\parens*}
+	m
+	m
+	m
+}{
+	\operatorname{corr}\hspace{#1}#2{\left. #3, #4 \,\middle|\, #5\right.}
+}
+
+\NewDocumentCommand{\diracOp}{
+	O{\funcneg}
+	D(){\parens*}
+	m
+}{
+	\delta\hspace{#1}#2{#3}
+}
+
+\NewDocumentCommand{\sinOp}{
+	O{}
+	O{\funcneg}
+	D(){\parens*}
+	m
+}{
+	\sin^{#1}\hspace{#2}#3{#4}
+}
+
+\NewDocumentCommand{\cosOp}{
+	O{}
+	O{\funcneg}
+	D(){\parens*}
+	m
+}{
+	\cos^{#1}\hspace{#2}#3{#4}
+}
+
+\NewDocumentCommand{\invtanOp}{
+	O{\funcneg}
+	D(){\parens*}
+	m
+}{
+	\tan^{-1}\hspace{#1}#2{#3}
+}
+
+\NewDocumentCommand{\normOp}{
+	O{}
+	m
+}{
+	\left|\left|#2\right|\right|_{#1}
+}
+
+
+%%% Densities and Distribtutions
+
+\newcommand*{\cdist}[2]{\left.#1 \,\middle|\, #2 \right.}
+
+
+\NewDocumentCommand{\dens}{
+	O{\funcneg}
+	D(){\parens*}
+	m
+}{
+	p\hspace{#1}#2{#3}
+}
+
+\NewDocumentCommand{\densvar}{
+	O{\funcneg}
+	D(){\parens*}
+	m
+	m
+}{
+	p_{#3}\hspace{#1}#2{#4}
+}
+
+\NewDocumentCommand{\cdens}{
+	O{\funcneg}
+	D(){\parens*}
+	m
+	m
+}{
+	\dens[#1](#2){\cdist{#3}{#4}}
+}
+
+
+\NewDocumentCommand{\logcdens}{
+	O{0em}
+	O{\funcneg}
+	D(){\nodelim}
+	D(){\parens*}
+	m
+	m
+}{
+	\logOp[#1](#3){\cdens[#2](#4){#5}{#6}}
+}
+
+\NewDocumentCommand{\logdens}{
+	O{0em}
+	O{\funcneg}
+	D(){\nodelim}
+	D(){\parens*}
+	m
+}{
+	\logOp[#1](#3){\dens[#2](#4){#5}}
+}
+
+\NewDocumentCommand{\nDist}{
+	O{\funcneg}
+	D(){\parens*}
+	m
+	m
+}{
+	\mathcal{N}\hspace{#1}#2{#3, #4}
+}
+
+\NewDocumentCommand{\mvnDist}{
+	O{\funcneg}
+	D(){\parens*}
+	m
+	m
+}{
+	\operatorname{MVN}\hspace{#1}#2{#3, #4}
+}
+
+\NewDocumentCommand{\mvnDens}{
+	O{\funcneg}
+	D(){\parens*}
+	m
+	m
+	m
+}{
+	\phi\hspace{#1}#2{#3; #4, #5}
+}
+
+\NewDocumentCommand{\dmvnDens}{
+	O{\funcneg}
+	D(){\parens*}
+	m
+	m
+	m
+}{
+	\hat{\phi}\hspace{#1}#2{#3; #4, #5}
+}
+
+
+\NewDocumentCommand{\mnDist}{
+	O{\funcneg}
+	D(){\parens*}
+	m
+	m
+	m
+}{
+	\mathrm{MN}\hspace{#1}#2{#3, #4, #5}
+}
+
+\NewDocumentCommand{\wishartDist}{
+	O{\funcneg}
+	D(){\parens*}
+	m
+	m
+}{
+	\mathrm{Wishart}\hspace{#1}#2{#3, #4}
+}
+
+
+\NewDocumentCommand{\effectiveDim}{
+	O{\funcneg}
+	D(){\parens*}
+	m
+}{
+	\rankOp[#1](#2){#3}
+}
+
+\NewDocumentCommand{\gammaDist}{
+	O{\funcneg}
+	D(){\parens*}
+	m
+	m
+}{
+	\operatorname{Gamma}\hspace{#1}#2{#3, #4}
+}
+
+
+%%% Statistics
+
+\NewDocumentCommand{\expectOp}{
+	O{\funcneg}
+	D(){\brackets*}
+	m
+}{
+	\mathbb{E}\hspace{#1}#2{#3}
+}
+
+\NewDocumentCommand{\cexpectOp}{
+	O{\funcneg}
+	D(){\brackets*}
+	m
+	m
+}{
+	\expectOp[#1](#2){\cdist{#3}{#4}}
+}
+
+\NewDocumentCommand{\varOp}{
+	O{\funcneg}
+	D(){\brackets*}
+	m
+}{
+	\mathbb{V}\hspace{#1}#2{#3}
+}
+
+\NewDocumentCommand{\cvarOp}{
+	O{\funcneg}
+	D(){\brackets*}
+	m
+	m
+}{
+	\varOp[#1](#2){\cdist{#3}{#4}}
+}
+
+
+
+\NewDocumentCommand{\empVar}{
+	O{\funcneg}
+	D(){\parens*}
+	m
+}{
+	\mathbf{S}^2\hspace{#1}#2{#3}
+}
+
+\NewDocumentCommand{\covOp}{
+	O{\funcneg}
+	D(){\parens*}
+	m
+	m
+}{
+	\operatorname{cov}\hspace{#1}#2{#3, #4}
+}
+
+\NewDocumentCommand{\altDet}{
+	O{\funcneg}
+	D(){\parens*}
+	m
+}{
+	\hat{\operatorname{det}}\hspace{#1}#2{#3}
+}
+
+\newcommand{\indicator}[1]{1_{\left\{#1\right\}}}
+\newcommand{\Indicator}[1]{1\fneg\left\{#1\right\}}
+
+\newcommand*{\cardinality}[1]{\left|#1\right|}
+
+\newcommand*{\concat}{\frown}
+
+
+
+%%% Inverses and Tranposes
+\def\inv{^{-1}}
+\def\trans{^t}
+
+%%% Tree specific operators
+\NewDocumentCommand{\parent}{
+	O{\funcneg}
+	D(){\parens*}
+	m
+}{
+	\operatorname{pa}\hspace{#1}#2{#3}
+}
+
+
+\newcommand*{\belowOp}[1]{\lfloor{#1}\rfloor}
+\newcommand*{\aboveOp}[1]{\lceil{#1}\rceil}
+
+%%% Computation
+
+\NewDocumentCommand{\bigo}{
+	O{\funcneg}
+	D(){\parens*}
+	m
+}{
+	\mathcal{O}\hspace{#1}#2{#3}
+}
+
+
+%%% Derivatives & Integrals
+
+\newcommand*{\pderiv}[2]{\frac{\partial#1}{\partial#2}}
+\newcommand*{\deriv}[2]{\frac{\diff#1}{\diff#2}}
+\newcommand{\grad}[2]{\nabla_{#2} #1}
+\newcommand{\gradvar}[1]{\nabla_{#1}}
+\newcommand{\diff}{\mathrm{d}}
+
+%%% Misc
+\newcommand{\too}{,\hdots,}
+\newcommand{\iid}{\overset{\mathrm{iid}}{\sim}}
+\newcommand{\real}[1]{\mathbb{R}^{#1}}
+\newcommand{\nth}{^{\text{th}}}
+\newcommand*{\zero}{\mathbf{0}}
+\newcommand*{\I}{\mathbf{I}}
+\newcommand*{\one}[1]{\mathbf{1}_{#1}}
+
+%%% Spaces
+\newcommand*{\reals}[1]{\mathbb{R}^{#1}}
+

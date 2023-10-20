@@ -1,0 +1,18 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{export}
+
+\newwrite\outputfile
+
+\newcommand{\setexportfile}[1]{\immediate\openout\outputfile=#1}
+
+\newcommand{\export}[2]{%
+  \immediate\write\outputfile{#1}%
+  \expandafter\gdef\csname #1\endcsname{#2}%
+}
+
+\newcommand{\exporteq}[2]{%
+  \export{#1}{
+    \begin{equation*}
+        #2%
+    \end{equation*}}%
+}

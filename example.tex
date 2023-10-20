@@ -1,0 +1,18 @@
+\documentclass[preview]{standalone}
+
+\usepackage{amsmath}
+\usepackage{export}
+
+
+\def\data{\mathbf{y}}
+
+\begin{toExport}
+\export{varA}{A}
+\exporteq{varB}{\data + 1}
+\exporteq{varC}{\data'\data}
+\end{toExport}
+
+
+\begin{document}
+\showExportedVariables
+\end{document}

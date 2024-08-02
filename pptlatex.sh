@@ -1,6 +1,7 @@
 #!/bin/bash
 
 output_dir=.
+resize=100
 
 if [ $# -eq 0 ]
   then
@@ -9,6 +10,10 @@ if [ $# -eq 0 ]
 elif [ $# -eq 2 ]
   then
     output_dir=$2
+elif [ $# -eq 3 ]
+  then
+    output_dir=$2
+    resize=$3
 fi
 
 if [ ! -d "$output_dir" ]; then
@@ -40,4 +45,6 @@ while read -r varname; do
   pdflatex -output-directory $output_dir $output
   # Remove the output file
   rm $output $output_dir/$varname.aux $output_dir/$varname.exports $output_dir/$varname.log
+  # pdfcrop $output_dir/$varname.pdf $output_dir/$varname.pdf
+  convert -density 800 $output_dir/$varname.pdf $output_dir/$varname.png
 done < $1.exports
